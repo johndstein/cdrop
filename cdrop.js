@@ -3,6 +3,13 @@ var formidable = require('formidable');
 var shortid = require('shortid');
 var fs = require('fs');
 var cache = {};
+
+function getProtocol(req) {
+  var proto = req.connection.encrypted ? 'https' : 'http';
+  // only do this if you trust the proxy
+  proto = req.headers['x-forwarded-proto'] || proto;
+  return proto.split(/\s*,\s*/)[0];
+}
 http.createServer(function(req, res) {
   if (req.method === 'POST') {
     var form = new formidable.IncomingForm();
@@ -17,7 +24,7 @@ http.createServer(function(req, res) {
         res.writeHead(200, {
           'Content-Type': 'text/html'
         });
-        var scheme = req.connection.encrypted ? 'https' : 'http';
+        var scheme = getProtocol(req);
         res.write(`<a href="${scheme}://${req.headers.host}/${id}">${scheme}://${req.headers.host}/${id}</a>\n${req.headers.host}/${id}\n`);
         res.end();
       }
