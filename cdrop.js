@@ -5,12 +5,6 @@ var fs = require('fs');
 var cache = {};
 var readme = (fs.readFileSync('./README.md') + '').trim();
 
-function getProtocol(req) {
-  var proto = req.connection.encrypted ? 'https' : 'http';
-  // only do this if you trust the proxy
-  proto = req.headers['x-forwarded-proto'] || proto;
-  return proto.split(/\s*,\s*/)[0];
-}
 http.createServer(function(req, res) {
   if (req.method === 'POST') {
     var form = new formidable.IncomingForm();
@@ -30,8 +24,7 @@ http.createServer(function(req, res) {
         res.writeHead(200, {
           'Content-Type': 'text/html'
         });
-        var scheme = getProtocol(req);
-        res.write(`<a href="${scheme}://${req.headers.host}/${id}">${scheme}://${req.headers.host}/${id}</a>\n${req.headers.host}/${id}\n`);
+        res.write(`<a href="//${req.headers.host}/${id}">${req.headers.host}/${id}</a>\n${req.headers.host}/${id}\n`);
         res.end();
       }
     });
@@ -62,7 +55,7 @@ http.createServer(function(req, res) {
         });
     } else {
       res.statusCode = 404;
-      res.write('you are lost');
+      res.write('you\'re lost');
       res.end();
     }
   }
