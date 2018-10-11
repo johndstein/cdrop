@@ -20,7 +20,12 @@ http.createServer(function(req, res) {
         res.end();
       } else {
         var id = shortid.generate();
-        cache[id] = files.file.path;
+        cache[id] = {
+          size: files.file.size,
+          path: files.file.path,
+          name: files.file.name,
+          type: files.file.type
+        };
         res.writeHead(200, {
           'Content-Type': 'text/html'
         });
@@ -34,23 +39,23 @@ http.createServer(function(req, res) {
       'Content-Type': 'text/html'
     });
     res.write('<form action="/" method="post" enctype="multipart/form-data">');
-    res.write('<input type="file" name="file"><br>');
+    res.write('<input type="file" name="file">');
     res.write('<input type="submit">');
     res.write('</form>');
     res.end();
   } else {
     var id = req.url.substring(1);
-    if (cache[id]) {
-      var stat = fs.statSync(cache[id]);
+    var file = cache[id];
+    if (file) {
       res.writeHead(200, {
-        'Content-Disposition': 'attachment; filename="' + id + '"',
-        'Content-Length': stat.size
+        'Content-Type': file.type,
+        'Content-Disposition': 'attachment; filename="' + file.name + '"',
+        'Content-Length': file.size
       });
-      fs.createReadStream(cache[id])
+      fs.createReadStream(file.path)
         .pipe(res)
         .on('finish', () => {
-          console.log('deleting', id, cache);
-          fs.unlinkSync(cache[id]);
+          fs.unlinkSync(file.path);
           delete cache[id];
         });
     } else {
