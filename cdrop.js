@@ -3,6 +3,7 @@ var formidable = require('formidable');
 var shortid = require('shortid');
 var fs = require('fs');
 var cache = {};
+var readme = (fs.readFileSync('./README.md') + '').trim();
 
 function getProtocol(req) {
   var proto = req.connection.encrypted ? 'https' : 'http';
@@ -42,6 +43,7 @@ http.createServer(function(req, res) {
     res.write('<input type="file" name="file">');
     res.write('<input type="submit">');
     res.write('</form>');
+    res.write('<pre>\n\n' + readme + '\n</pre>\n');
     res.end();
   } else {
     var id = req.url.substring(1);
