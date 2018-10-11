@@ -35,7 +35,7 @@ http.createServer(function(req, res) {
     if (cache[id]) {
       var stat = fs.statSync(cache[id]);
       res.writeHead(200, {
-        'Content-Disposition': 'attachment; filename="' + cache[id] + '"',
+        'Content-Disposition': 'attachment; filename="' + id + '"',
         'Content-Length': stat.size
       });
       fs.createReadStream(cache[id])
