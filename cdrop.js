@@ -4,8 +4,12 @@ var shortid = require('shortid');
 var fs = require('fs');
 var cache = {};
 var readme = (fs.readFileSync('./README.md') + '').trim();
+var readme2;
 
 http.createServer(function(req, res) {
+  if (!readme2) {
+    readme2 = readme.replace(/localhost:8080/g, req.headers.host);
+  }
   if (req.method === 'POST') {
     var form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
@@ -36,7 +40,7 @@ http.createServer(function(req, res) {
     res.write('<input type="file" name="f">');
     res.write('<input type="submit">');
     res.write('</form>');
-    res.write('<pre>\n\n' + readme + '\n</pre>\n');
+    res.write('<pre>\n\n' + readme2 + '\n</pre>\n');
     res.end();
   } else {
     var id = req.url.substring(1);
