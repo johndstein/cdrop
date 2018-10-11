@@ -28,7 +28,7 @@ http.createServer(function(req, res) {
         res.writeHead(200, {
           'Content-Type': 'text/html'
         });
-        res.write(`<a href="//${req.headers.host}/${id}">${req.headers.host}/${id}</a>\n${req.headers.host}/${id}\n`);
+        res.write(`<a href="//${req.headers.host}/${id}">${req.headers.host}/${id}</a>\ncurl ${req.headers.host}/${id}\n`);
         res.end();
       }
     });

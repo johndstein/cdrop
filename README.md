@@ -9,14 +9,14 @@ Makes it easy to share files with relative security.
 
 ```sh
 curl -F 'f=@README.md' localhost:8080
-<a href="//localhost:8080/evi2_DA_v">localhost:8080/evi2_DA_v</a>
-localhost:8080/evi2_DA_v
+# or encrypt before sending
+gpg -ac < README.md | curl -F f=@- localhost:8080
 ```
 
 ## GET the file from cdrop.
 
 ```sh
-curl localhost:8080/evi2_DA_v > README-copy.md
-# OR
-wget -o README-copy.md localhost:8080/evi2_DA_v
+curl localhost:8080/evi2_DA_v > README.md
+# or decrypt after receiving
+curl localhost:8080/evi2_DA_v | gpg -d > README.md
 ```
