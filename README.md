@@ -1,6 +1,9 @@
 # cdrop
 
-POST a file to cdrop. Then you can GET it once.
+POST a file to cdrop.
+
+Then you can GET it once.
+
 After that, it's deleted.
 
 Makes it easy to share files with relative security.
