@@ -8,7 +8,7 @@ Makes it easy to share files with relative security.
 ## POST a file to cdrop.
 
 ```sh
-curl -F 'file=@README.md' http://localhost:8080
+curl -F 'f=@README.md' http://localhost:8080
 <a href="http://localhost:8080/evi2_DA_v">http://localhost:8080/evi2_DA_v</a>
 localhost:8080/evi2_DA_v
 ```

@@ -22,10 +22,10 @@ http.createServer(function(req, res) {
       } else {
         var id = shortid.generate();
         cache[id] = {
-          size: files.file.size,
-          path: files.file.path,
-          name: files.file.name,
-          type: files.file.type
+          size: files.f.size,
+          path: files.f.path,
+          name: files.f.name,
+          type: files.f.type
         };
         res.writeHead(200, {
           'Content-Type': 'text/html'
@@ -40,7 +40,7 @@ http.createServer(function(req, res) {
       'Content-Type': 'text/html'
     });
     res.write('<form action="/" method="post" enctype="multipart/form-data">');
-    res.write('<input type="file" name="file">');
+    res.write('<input type="file" name="f">');
     res.write('<input type="submit">');
     res.write('</form>');
     res.write('<pre>\n\n' + readme + '\n</pre>\n');
