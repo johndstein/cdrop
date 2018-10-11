@@ -17,7 +17,8 @@ http.createServer(function(req, res) {
         res.writeHead(200, {
           'Content-Type': 'text/html'
         });
-        res.write(`<a href="http://${req.headers.host}/${id}">http://${req.headers.host}/${id}</a>\n${req.headers.host}/${id}\n`);
+        var scheme = req.connection.encrypted ? 'https' : 'http';
+        res.write(`<a href="${scheme}://${req.headers.host}/${id}">${scheme}://${req.headers.host}/${id}</a>\n${req.headers.host}/${id}\n`);
         res.end();
       }
     });
